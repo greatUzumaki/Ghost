@@ -57,5 +57,18 @@ module.exports = {
         } else  {
             console.log('Admin-X-Settings folder not found');
         }
+
+        // copy the @tryghost/koenig-lexical assets
+        const koenigLexicalPath = require.resolve('@tryghost/koenig-lexical');
+        const assetsKoenigLexicalPath = `${assetsOut}/assets/koenig-lexical`;
+
+        // only copy the assets if we're not in development mode, as we'll want to use the webserver ones at that point
+        if (this.env !== 'development') {
+            if (fs.existsSync(koenigLexicalPath)) {
+                fs.copySync(koenigLexicalPath, assetsKoenigLexicalPath, {overwrite: true, dereference: true});
+            } else {
+                console.log('Koenig-Lexical folder not found');
+            }
+        }
     }
 };
